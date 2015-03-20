@@ -7,7 +7,6 @@ describe 'user subscribe' do
     fill_in 'user_email', with: 'test@email.com'
     click_button 'Send'
     expect(page).to have_content(I18n.t('subscribed'))
-    expect(page).to have_button('Send', disabled: true)
   end
 
   context 'with invalid email' do

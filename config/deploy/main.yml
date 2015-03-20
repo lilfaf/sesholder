@@ -36,8 +36,17 @@
   - name: Install Docker-py
     pip: name=docker-py state=latest
 
-  - name: Pull sesholder sources from repository
-    git: repo=https://github.com/seshook/sesholder.git dest=/tmp/{{ project_name }} version={{ branch }}
+  - name: Upload SSH known hosts
+    copy: src=~/.ssh/known_hosts dest=/root/.ssh/known_hosts mode=0600
+
+  - name: Upload SSH private key
+    copy: src=~/.ssh/id_rsa_github dest=/root/.ssh/id_rsa mode=0600
+
+  - name: Upload SSH public key
+    copy: src=~/.ssh/id_rsa_github.pub dest=/root/.ssh/id_rsa.pub mode=0600
+
+  - name: Pull sesholder sources from private repository
+    git: repo=git@github.com:lilfaf/sesholder.git dest=/tmp/{{ project_name }} version={{ branch }} accept_hostkey=yes
 
   - name: Ensure sesholder server not running
     docker: image={{ project_name }} state=killed

@@ -6,7 +6,7 @@ Rails.application.load_tasks
 namespace :test do
   task :deploy do
     sh 'vagrant up'
-    sh 'ansible-playbook -i hosts --limit development config/deploy/main.yml'
+    sh 'ansible-playbook -vvvv -i hosts --limit development config/deploy/main.yml'
   end
 end
 
