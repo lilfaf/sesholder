@@ -1,0 +1,51 @@
+---
+- hosts: all
+  sudo: true
+  vars:
+    project_name: sesholder
+  vars_files: [vars.yml]
+
+  tasks:
+
+  - name: Install required apt packages
+    apt: pkg={{ item }} state=installed update_cache=yes
+    with_items:
+      - build-essential
+      - git
+      - python-dev
+      - python-setuptools
+
+  - name: Install required python packages
+    easy_install: name={{ item }}
+    with_items:
+      - pip
+      - virtualenv
+
+  - name: Add Docker repository to keychain
+    apt_key: keyserver=keyserver.ubuntu.com id=36A1D7869245C8950F966E92D8576A8BA88D21E9
+
+  - name: Add Docker respository into sources list
+    apt_repository: repo='deb https://get.docker.com/ubuntu docker main' state=present
+
+  - name: Install Docker
+    apt: pkg=lxc-docker state=installed update_cache=yes
+
+  - name: Ensure Docker deamon is running
+    service: name=docker state=started enabled=yes
+
+  - name: Install Docker-py
+    pip: name=docker-py state=latest
+
+  - name: Pull sesholder sources from repository
+    git: repo=https://github.com/seshook/sesholder.git dest=/tmp/{{ project_name }} version={{ branch }}
+
+  - name: Ensure sesholder server not running
+    docker: image={{ project_name }} state=killed
+
+  - name: Build sesholder image
+    docker_image: path=/tmp/{{ project_name }} name={{ project_name }} state=build
+    retries: 3
+
+  - name: Run sesholder server
+    docker: image={{ project_name }} state=running ports=80:80 env="DB_PASSWORD={{ db_password }},DB_HOST={{ db_host }},SECRET_KEY_BASE={{ secret_key_base }}"
+

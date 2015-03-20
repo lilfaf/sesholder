@@ -1,6 +1,15 @@
-# Add your own tasks in files placed in lib/tasks ending in .rake,
-# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
-
 require File.expand_path('../config/application', __FILE__)
 
 Rails.application.load_tasks
+
+
+namespace :test do
+  task :deploy do
+    sh 'vagrant up'
+    sh 'ansible-playbook -i hosts --limit development config/deploy/main.yml'
+  end
+end
+
+task :deploy do
+  sh 'ansible-playbook -i hosts --limit production config/deploy/main.yml'
+end

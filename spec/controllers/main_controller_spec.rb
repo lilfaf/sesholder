@@ -13,6 +13,7 @@ describe MainController do
       }.to change(User, :count).by(1)
       expect(flash[:notice]).to eq(I18n.t('subscribed'))
       expect(response).to redirect_to(root_path)
+      expect(cookies.permanent.signed[:subscribed]).to be(true)
     end
 
     it "fails with invalid email" do

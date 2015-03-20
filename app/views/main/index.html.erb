@@ -2,5 +2,5 @@
   <div class="form-group">
     <%= f.email_field :email, placeholder: t('input_placeholder'), required: true, class: 'form-control input-lg' %>
   </div>
-  <%= f.submit t('send_btn'), class: 'btn btn-lg btn-success btn-block' %>
+  <%= f.submit t('send_btn'), class: 'btn btn-lg btn-success btn-block', disabled: cookies.permanent.signed[:subscribed] %>
 <% end %>
