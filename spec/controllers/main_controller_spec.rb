@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe MainController do
+  include ActiveJob::TestHelper
+
   describe 'GET #index' do
     before { get :index }
     it { expect(assigns(:user)).to be_a(User) }
@@ -15,10 +17,10 @@ describe MainController do
       expect(response).to redirect_to(root_path)
     end
 
-    it "seeds email" do
+    it "sends email in background" do
       expect{
         post :create, {user: {email: 'test@email.com'}}
-      }.to change(ActionMailer::Base.deliveries, :count). by(1)
+      }.to change{ enqueued_jobs.size }.by(1)
     end
 
     it "fails with invalid email" do
