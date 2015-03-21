@@ -3,3 +3,4 @@ en:
   input_placeholder: "Enter your email..."
   send_btn: "Send"
   main_message: "Give us your email, we'll notify you when  we launch"
+  email_subject: "Welcome to Seshook"

@@ -15,6 +15,12 @@ describe MainController do
       expect(response).to redirect_to(root_path)
     end
 
+    it "seeds email" do
+      expect{
+        post :create, {user: {email: 'test@email.com'}}
+      }.to change(ActionMailer::Base.deliveries, :count). by(1)
+    end
+
     it "fails with invalid email" do
       post :create, {user: {email: 'notemail.co'}}
       expect(flash[:danger]).to eq('Email is invalid')

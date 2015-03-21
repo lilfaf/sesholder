@@ -7,6 +7,7 @@ class MainController < ApplicationController
     @user = User.create(subscriber_params)
     if @user.persisted?
       flash[:notice] = t(:subscribed)
+      UserMailer.subscribed(@user).deliver_now
     else
       flash[:danger] = @user.errors.full_messages.join(", ").capitalize
     end
