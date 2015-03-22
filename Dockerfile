@@ -34,9 +34,7 @@ COPY config/deploy/htpasswd /etc/nginx/htpasswd
 COPY config/deploy/webapp.conf /etc/nginx/sites-enabled/webapp.conf
 COPY config/deploy/rails-env.conf /etc/nginx/main.d/rails-env.conf
 
-# Setup and run sidekiq
-RUN useradd sidekiq
-RUN chown sidekiq log/sidekiq.log
+# Start sidekiq
 RUN mkdir /etc/service/sidekiq
 COPY bin/sidekiq.sh /etc/service/sidekiq/run
 

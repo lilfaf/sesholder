@@ -45,11 +45,8 @@
   - name: Upload SSH public key
     copy: src=~/.ssh/id_rsa_github.pub dest=/root/.ssh/id_rsa.pub mode=0600
 
-  - name: Remove previous source
-    shell: 'rm -dr /tmp/{{ project_name }}'
-
   - name: Pull sesholder sources from private repository
-    git: repo=git@github.com:lilfaf/sesholder.git dest=/tmp/{{ project_name }} version={{ branch }} accept_hostkey=yes
+    git: repo=git@github.com:lilfaf/sesholder.git dest=/tmp/{{ project_name }} version={{ branch }} accept_hostkey=yes force=yes
 
   - name: Ensure sesholder server not running
     docker: image={{ project_name }} state=killed
