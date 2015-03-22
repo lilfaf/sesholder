@@ -6,6 +6,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'email_validator'
 gem 'sidekiq'
+gem 'dotenv-rails'
 
 group :development, :test do
   gem 'byebug'
@@ -14,6 +15,5 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'shoulda-matchers'
   gem 'capybara'
-  gem 'dotenv-rails'
   gem 'foreman'
 end

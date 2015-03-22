@@ -60,4 +60,3 @@
 
   - name: Run sesholder server
     docker: image={{ project_name }} state=running ports=80:80 env="DB_PASSWORD={{ db_password }},DB_HOST={{ db_host }},SECRET_KEY_BASE={{ secret_key_base }}"
-

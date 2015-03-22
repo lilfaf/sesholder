@@ -30,8 +30,15 @@ EXPOSE 80
 RUN rm -f /etc/service/nginx/down
 RUN rm -f /etc/nginx/sites-enabled/default
 
+COPY config/deploy/htpasswd /etc/nginx/htpasswd
 COPY config/deploy/webapp.conf /etc/nginx/sites-enabled/webapp.conf
 COPY config/deploy/rails-env.conf /etc/nginx/main.d/rails-env.conf
+
+# Setup and run sidekiq
+RUN useradd sidekiq
+RUN chown sidekiq log/sidekiq.log
+RUN mkdir /etc/service/sidekiq
+COPY bin/sidekiq.sh /etc/service/sidekiq/run
 
 # Clean up APT and bundler when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
