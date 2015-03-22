@@ -48,12 +48,15 @@
   - name: Pull sesholder sources from private repository
     git: repo=git@github.com:lilfaf/sesholder.git dest=/tmp/{{ project_name }} version={{ branch }} accept_hostkey=yes force=yes
 
-  - name: Ensure sesholder server not running
+  - name: Run redis server
+    docker: image=redis name=redis state=running ports=3306:3306
+
+  - name: Kill previous sesholder container
     docker: image={{ project_name }} state=killed
 
   - name: Build sesholder image
     docker_image: path=/tmp/{{ project_name }} name={{ project_name }} state=build
-    retries: 3
+    retries: 5
 
   - name: Run sesholder server
-    docker: image={{ project_name }} state=running ports=80:80 env="DB_PASSWORD={{ db_password }},DB_HOST={{ db_host }},SECRET_KEY_BASE={{ secret_key_base }}"
+    docker: image={{ project_name }} state=running ports=80:80 links=redis:redis env="DB_PASSWORD={{ db_password }},DB_HOST={{ db_host }},SECRET_KEY_BASE={{ secret_key_base }}"
