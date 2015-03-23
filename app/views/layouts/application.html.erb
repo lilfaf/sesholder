@@ -2,6 +2,9 @@
 <html>
 <head>
   <title>Seshoook</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
   <%= favicon_link_tag    'favicon.png' %>
   <%= stylesheet_link_tag 'application', media: 'all' %>
@@ -15,7 +18,7 @@
 
 <div class="container wrapper">
   <div class="row">
-    <div class="col-center">
+    <div class="col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 
       <%= link_to root_path do %>
         <% image_tag('logo.png', class: 'img-responsive') %>

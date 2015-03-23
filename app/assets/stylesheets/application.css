@@ -18,9 +18,3 @@ html, body {
 .social-buttons {
   padding: 15px;
 }
-
-.col-center {
-  padding: 0 20px;
-  margin: 0 auto;
-  max-width: 560px;
-}
